@@ -15,7 +15,6 @@ namespace ALGA_test
         private AVLTree three_nodes_unbalanced;
         private AVLTree big_tree_balanced;
         private AVLTree big_tree_unbalanced;
-        private AVLTree tent_unbalanced;
 
         [SetUp]
         public void Setup()
@@ -95,33 +94,12 @@ namespace ALGA_test
             big_tree_unbalanced.root.right = new Node(11);
             big_tree_unbalanced.root.right.left = new Node(10);
             big_tree_unbalanced.root.right.right = new Node(12);
-
-            /**         15
-             *        /   \
-             *       10    18
-             *      /       \
-             *     8         23
-             *    /           \
-             *   6             25
-             *  /               \
-             * 1                 30
-             */
-            tent_unbalanced = new AVLTree();
-            tent_unbalanced.root = new Node(15);
-            tent_unbalanced.root.left = new Node(10);
-            tent_unbalanced.root.left.left = new Node(8);
-            tent_unbalanced.root.left.left.left = new Node(6);
-            tent_unbalanced.root.left.left.left.left = new Node(1);
-            tent_unbalanced.root.right = new Node(18);
-            tent_unbalanced.root.right.right = new Node(23);
-            tent_unbalanced.root.right.right.right = new Node(25);
-            tent_unbalanced.root.right.right.right = new Node(30);
         }
 
         [Test]
-        public void AVLTreeRotateleft()
+        public void AVLTreeRotateLeft()
         {
-            Node new_root = two_nodes.root.rotateleft();
+            Node new_root = two_nodes.root.rotateLeft();
 
             /**
              *   5
@@ -142,7 +120,7 @@ namespace ALGA_test
              *       5    10
              *      / \
              */
-            new_root = big_tree_balanced.root.rotateleft();
+            new_root = big_tree_balanced.root.rotateLeft();
             Assert.AreEqual(11, new_root.number);
             Assert.AreEqual(8, new_root.left.number);
             Assert.AreEqual(12, new_root.right.number);
@@ -151,7 +129,7 @@ namespace ALGA_test
         }
 
         [Test]
-        public void AVLTreeRotateright()
+        public void AVLTreeRotateRight()
         {
             /**  5
              *    \
@@ -159,7 +137,7 @@ namespace ALGA_test
              *    /
              *   7
              */
-            Node new_root = three_nodes_unbalanced.root.rotateright();
+            Node new_root = three_nodes_unbalanced.root.rotateRight();
             Assert.AreEqual(5, new_root.number);
             Assert.IsNull(new_root.left);
             Assert.AreEqual(10, new_root.right.number);
@@ -209,7 +187,7 @@ namespace ALGA_test
              * Insert hundred ascending numbers
              */
             AVLTree hundred_inserts = new AVLTree();
-            for (int i = 1; i <= 100; i++)
+            for(int i = 1; i <= 100; i++)
             {
                 hundred_inserts.insert(i);
             }
@@ -259,7 +237,7 @@ namespace ALGA_test
          */
         private int GetDepth(AVLTree tree)
         {
-            if (tree.root == null)
+            if(tree.root == null)
             {
                 return 0;
             }
@@ -269,22 +247,22 @@ namespace ALGA_test
             depthForNode[tree.root] = 1;
             int maxDepth = 1;
 
-            while (queue.Count > 0)
+            while(queue.Count > 0)
             {
                 Node node = queue.Dequeue();
                 int depthOfNode = depthForNode[node];
 
-                if (depthOfNode > maxDepth)
+                if(depthOfNode > maxDepth)
                 {
                     maxDepth = depthOfNode;
                 }
 
-                if (node.left != null)
+                if(node.left != null)
                 {
                     depthForNode[node.left] = depthOfNode + 1;
                     queue.Enqueue(node.left);
                 }
-                if (node.right != null)
+                if(node.right != null)
                 {
                     depthForNode[node.right] = depthOfNode + 1;
                     queue.Enqueue(node.right);
@@ -305,7 +283,7 @@ namespace ALGA_test
 
         private bool IsSorted(Node node, int min, int max)
         {
-            if (node == null)
+            if(node == null)
             {
                 return true;
             }
@@ -324,7 +302,6 @@ namespace ALGA_test
             Assert.IsFalse(three_nodes_unbalanced.isBalanced());
             Assert.IsTrue(big_tree_balanced.isBalanced());
             Assert.IsFalse(big_tree_unbalanced.isBalanced());
-            Assert.IsFalse(tent_unbalanced.isBalanced());
         }
     }
 }
